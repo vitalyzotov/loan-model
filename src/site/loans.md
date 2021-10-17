@@ -32,11 +32,20 @@ classDiagram
         extraPayments: List<ExtraPayment>
         +schedule()  List~Schedule~
     }
-    class LoanConditions
+    class LoanConditions {
+        +value() Money
+        +date() LocalDate
+        +dayOfPayment() int
+        +duration() int
+        +calendar() WorkCalendar
+        +nominalDate(int i) LocalDate
+        +paymentDate(int i) LocalDate
+        +schedule(List<Schedule> past, int i) Schedule
+    }
     <<interface>> LoanConditions
     
     Loan *-- LoanConditions
     Loan *-- "*" ExtraPayment
-    Loan --> Schedule : <<create>>
+    LoanConditions --> Schedule : <<create>>
     LoanConditions <|-- Annuity 
 ```
