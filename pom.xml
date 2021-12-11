@@ -7,56 +7,7 @@
     <groupId>ru.vzotov</groupId>
     <artifactId>loan-model</artifactId>
     <version>1.2-SNAPSHOT</version>
-    <name>Model of loans</name>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-
-            <!-- Code Coverage report generation -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>generate-code-coverage-report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Git flow support -->
-            <plugin>
-                <groupId>com.amashchenko.maven.plugin</groupId>
-                <artifactId>gitflow-maven-plugin</artifactId>
-                <version>1.13.0</version>
-                <configuration>
-                    <gitFlowConfig>
-                        <productionBranch>main</productionBranch>
-                        <developmentBranch>main</developmentBranch>
-                    </gitFlowConfig>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
+    <name>[Model] Loans</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -67,9 +18,9 @@
         <nv-i18n.version>1.23</nv-i18n.version>
         <jacoco.version>0.8.3</jacoco.version>
         <!-- Own modules -->
-        <ddd.version>1.1</ddd.version>
-        <money.version>1.4</money.version>
-        <calendars.version>1.53</calendars.version>
+        <ddd.version>1.4</ddd.version>
+        <money.version>1.5</money.version>
+        <calendars.version>1.54</calendars.version>
     </properties>
 
     <dependencies>
@@ -135,19 +86,66 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <!-- Code Coverage report generation -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>generate-code-coverage-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Git flow support -->
+            <plugin>
+                <groupId>com.amashchenko.maven.plugin</groupId>
+                <artifactId>gitflow-maven-plugin</artifactId>
+                <version>1.13.0</version>
+                <configuration>
+                    <gitFlowConfig>
+                        <productionBranch>main</productionBranch>
+                        <developmentBranch>main</developmentBranch>
+                    </gitFlowConfig>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
     <distributionManagement>
         <repository>
-            <id>github-vzotov</id>
-            <name>GitHub vitalyzotov Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/vitalyzotov/maven</url>
+            <id>vzotov-releases</id>
+            <url>https://maven.vzotov.ru/repository/maven-everyone</url>
         </repository>
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>github-vzotov</id>
-            <name>GitHub vitalyzotov Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/vitalyzotov/maven</url>
+            <id>vzotov-releases</id>
+            <url>https://maven.vzotov.ru/repository/maven-everyone</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
