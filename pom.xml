@@ -19,8 +19,8 @@
         <jacoco.version>0.8.3</jacoco.version>
         <!-- Own modules -->
         <ddd.version>1.4</ddd.version>
-        <money.version>1.5</money.version>
-        <calendars.version>1.54</calendars.version>
+        <money.version>1.6</money.version>
+        <calendars.version>1.56</calendars.version>
     </properties>
 
     <dependencies>
