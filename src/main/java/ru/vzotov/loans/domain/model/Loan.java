@@ -11,24 +11,10 @@ import java.util.stream.Collectors;
 
 /**
  * Кредит
+ *
+ * @param conditions Условия кредита
  */
-public class Loan {
-
-    /**
-     * Условия кредита
-     */
-    private final LoanConditions conditions;
-
-    private final List<ExtraPayment> extraPayments;
-
-    public Loan(LoanConditions conditions, List<ExtraPayment> extraPayments) {
-        this.conditions = conditions;
-        this.extraPayments = extraPayments;
-    }
-
-    public List<ExtraPayment> extraPayments() {
-        return extraPayments;
-    }
+public record Loan(LoanConditions conditions, List<ExtraPayment> extraPayments) {
 
     public int dayOfPayment() {
         return conditions().dayOfPayment();
@@ -44,10 +30,6 @@ public class Loan {
 
     public int duration() {
         return conditions.duration();
-    }
-
-    public LoanConditions conditions() {
-        return conditions;
     }
 
     /**
