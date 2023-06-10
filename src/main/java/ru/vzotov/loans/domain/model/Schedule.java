@@ -8,32 +8,32 @@ public class Schedule {
     /**
      * Порядковый номер платежного периода
      */
-    private int period;
+    private final int period;
 
     /**
      * Дата платежа
      */
-    private LocalDate date;
+    private final LocalDate date;
 
     /**
      * Номинальная дата платежа исходя из условий кредита (без учета выходных, праздников)
      */
-    private LocalDate nominalDate;
+    private final LocalDate nominalDate;
 
     /**
      * Количество платежных периодов
      */
-    private int remainingPeriods;
+    private final int remainingPeriods;
 
     /**
      * Остаток задолженности
      */
-    private Money debt;
+    private final Money debt;
 
     /**
      * Размер платежа
      */
-    private Money payment;
+    private final Money payment;
 
     /**
      * Сумма в счет погашения основного долга
@@ -43,7 +43,7 @@ public class Schedule {
     /**
      * Сумма в счет погашения процентов
      */
-    private Money cost;
+    private final Money cost;
 
     public Schedule(int period, LocalDate date, LocalDate nominalDate, int remainingPeriods, Money debt, Money payment, Money payoff, Money cost) {
         this.period = period;

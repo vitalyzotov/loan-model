@@ -70,7 +70,7 @@ public class AnnuityGpb extends Annuity {
     /**
      * @param debt остаток задолженности
      * @param i    порядковый номер платежа
-     * @return
+     * @return Размер процентов
      */
     public Money calculatePercent(Money debt, Money previousPayoff, int i) {
         LocalDate d1 = (i == 1) ? date() : nominalDate(i - 1);
@@ -103,7 +103,7 @@ public class AnnuityGpb extends Annuity {
         // Первый платеж - только проценты. Для других платежей считаем изначальную сумму.
         Money payment = i == 1 ? cost : calculatePayment(value(), duration());
 
-        Schedule s = new Schedule(
+        return new Schedule(
                 i,
                 paymentDate,
                 nominalDate(i),
@@ -113,6 +113,5 @@ public class AnnuityGpb extends Annuity {
                 i == 1 ? Money.kopecks(0) : payment.subtract(cost),
                 cost
         );
-        return s;
     }
 }
