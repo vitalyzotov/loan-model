@@ -1,7 +1,8 @@
 package ru.vzotov.loans.domain.model;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.vzotov.calendar.domain.model.WorkCalendar;
 import ru.vzotov.calendar.domain.model.WorkCalendars;
 import ru.vzotov.domain.model.Money;
@@ -11,7 +12,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class AnnuityTest {
+
+    private static final Logger log = LoggerFactory.getLogger(AnnuityTest.class);
 
     private static final S[] scheduleAlfa = {
             new S(LocalDate.parse("2019-07-01"), Money.rubles(2300000.0), Money.rubles(35510.11), Money.rubles(52000), 60),
@@ -76,34 +81,28 @@ public class AnnuityTest {
                         , new ExtraPayment(LocalDate.parse("2020-10-29"), Money.rubles(50000.0 + 1400.0 + 1400.0 + 1400.0 + 1600.0))
                 ));
 
-        System.out.println(loan.dates());
-
-        Money fee;
-        Money payment;
+        log.info("Loan dates {}", loan.dates());
 
         List<Schedule> schedule = loan.schedule();
 
+
         int i = 0;
         for (S s : scheduleAlfa) {
-            Schedule fact = schedule.get(i);
+            final Schedule fact = schedule.get(i);
+            final Money fee = fact.cost();
+            final Money payment = fact.payment();
 
-            fee = fact.cost();
-            payment = fact.payment();
+            log.info("{}/{}: {}, debt = {}, fee = {} ({}) [{}], payment = {} ({})", i + 1, s.n, s.date, fact.debt(), fee, s.fee, s.fee.subtract(fee), payment, s.payment);
 
-            //System.out.println(String.format("fee = %s (%s), payment = %s (%s)", fee, s.fee, payment, s.payment));
-            System.out.println(String.format("%d/%d: %s, debt = %s, fee = %s (%s) [%s], payment = %s (%s)", i + 1, s.n, s.date, fact.debt(), fee, s.fee, s.fee.subtract(fee), payment, s.payment));
-
-            Assertions.assertThat(fee).isEqualTo(s.fee);
-            Assertions.assertThat(payment).isEqualTo(s.payment);
+            assertThat(fee).isEqualTo(s.fee);
+            assertThat(payment).isEqualTo(s.payment);
 
             i++;
         }
 
-        System.out.println("==================");
         for (Schedule s : schedule) {
-            System.out.println(String.format("%d/%d: %s, debt = %s, cost = %s, payment = %s, total = %s", s.period(), s.remainingPeriods(), s.date(), s.debt(), s.cost(), s.payment(), s.cost().add(s.payoff())));
+            log.info("| {}/{}: {}, debt = {}, cost = {}, payment = {}, total = {}", s.period(), s.remainingPeriods(), s.date(), s.debt(), s.cost(), s.payment(), s.cost().add(s.payoff()));
         }
-        System.out.println("==================");
     }
 
     @Test
@@ -143,43 +142,25 @@ public class AnnuityTest {
                 ),
                 Collections.emptyList());
 
-        System.out.println(loan.dates());
-
-        Money fee;
-        Money payment;
+        log.info("Loan dates {}", loan.dates());
 
         List<Schedule> schedule = loan.schedule();
 
         int i = 0; // порядковый номер платежа
-        System.out.println("GPB " + loan.date());
+        log.info("GPB {}", loan.date());
         for (S s : scheduleGpb) {
-            Schedule fact = schedule.get(i);
+            final Schedule fact = schedule.get(i);
+            final Money fee = fact.cost();
+            final Money payment = fact.payment();
 
-            fee = fact.cost();
-            payment = fact.payment();
-
-            //System.out.println(String.format("%d/%d: %s, fee = %s (%s) [%s], payment = %s (%s)", i+1, s.n, s.date, fee, s.fee, s.fee.subtract(fee), payment, s.payment));
-            System.out.println(String.format("%d/%d: %s, debt = %s, fee = %s (%s) [%s], payment = %s (%s)", i + 1, s.n, s.date, fact.debt(), fee, s.fee, s.fee.subtract(fee), payment, s.payment));
-            Assertions.assertThat(fee).isEqualTo(s.fee);
-            Assertions.assertThat(payment).isEqualTo(s.payment);
+            log.info("{}/{}: {}, debt = {}, fee = {} ({}) [{}], payment = {} ({})", i + 1, s.n, s.date, fact.debt(), fee, s.fee, s.fee.subtract(fee), payment, s.payment);
+            assertThat(fee).isEqualTo(s.fee);
+            assertThat(payment).isEqualTo(s.payment);
             i++;
         }
 
     }
 
-    private static class S {
-        LocalDate date;
-        Money debt;
-        Money fee;
-        Money payment;
-        int n;
-
-        public S(LocalDate date, Money debt, Money fee, Money payment, int n) {
-            this.date = date;
-            this.debt = debt;
-            this.fee = fee;
-            this.payment = payment;
-            this.n = n;
-        }
+    private record S(LocalDate date, Money debt, Money fee, Money payment, int n) {
     }
 }

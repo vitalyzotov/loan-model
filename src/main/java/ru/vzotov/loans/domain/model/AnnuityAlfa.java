@@ -10,8 +10,8 @@ import java.util.List;
 
 /**
  * Аннуитет альфабанка:
- * https://www.banki.ru/services/responses/bank/response/10170371/
- * https://mobile-testing.ru/grafik-platezhey-po-kreditu-v-alfa-banke/
+ * <a href="https://www.banki.ru/services/responses/bank/response/10170371/">https://www.banki.ru/services/responses/bank/response/10170371/</a>
+ * <a href="https://mobile-testing.ru/grafik-platezhey-po-kreditu-v-alfa-banke/">https://mobile-testing.ru/grafik-platezhey-po-kreditu-v-alfa-banke/</a>
  */
 public class AnnuityAlfa extends Annuity {
 
@@ -39,7 +39,7 @@ public class AnnuityAlfa extends Annuity {
 
     /**
      * @param debt остаток основного долга
-     * @return
+     * @return Размер процентов
      */
     public Money calculatePercent(Money debt, int i) {
         LocalDate baseDate = paymentDate(i - 1);
@@ -61,7 +61,7 @@ public class AnnuityAlfa extends Annuity {
         Money cost = calculatePercent(debt, i);
         Money payment = calculatePayment(debt, duration() - i + 1);
 
-        Schedule s = new Schedule(
+        return new Schedule(
                 i,
                 paymentDate,
                 nominalDate(i),
@@ -71,6 +71,5 @@ public class AnnuityAlfa extends Annuity {
                 payment.subtract(cost),
                 cost
         );
-        return s;
     }
 }

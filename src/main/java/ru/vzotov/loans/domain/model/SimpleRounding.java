@@ -4,7 +4,7 @@ import ru.vzotov.domain.model.Money;
 
 public class SimpleRounding implements Rounding {
 
-    private int power;
+    private final int power;
 
     public SimpleRounding(int power) {
         this.power = power;
